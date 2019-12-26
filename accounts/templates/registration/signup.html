@@ -1,0 +1,25 @@
+{% extends 'registration/base_accounts.html' %}
+
+{% block title %}Sign Up to Django Boards{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+     <div class="col-lg-8 col-md-10 col-sm-12">         <!-- when screen is adjusted to different sizes then the view will change according to this -->
+      <div class="card">                                <!-- from here card view -->
+        <div class="card-body">
+          <h3 class="card-title">Sign Up</h3>
+          <form method="post" novalidate>
+            {% csrf_token %}
+             <!-- {{ form.as_p }} -->
+             {% include 'includes/form.html' %}
+            <button type="submit">Sign up</button>
+          </form>
+        </div>
+        <div class="card-footer text-muted text-center">
+          Already have an account? <a href="{%url 'login'%}">Log In</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

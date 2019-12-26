@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% extends 'boards/base.html' %}
+{% load static %}
+{% load humanize %}
+<!-- {% load static %} -->
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Boards</li>
+{% endblock %}
+
+<!-- {% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %} -->
+
+{% block content %}
+      <table class="table table-striped mb-4">
+
+        <thead  class="thead-inverse text-nowrap hea">
+          <tr>
+            <th>BOARD</th>
+            <th>POSTS</th>
+            <th>TOPICS</th>
+            <th>LAST POST</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for board in boards %}
+          <tr>
+            <td>
+              <!-- {{board.name}}<br> -->
+               <a id="heading" href="{% url 'board_topics' board.pk %}">{{board.name}}</a>     <!--initially when we were going to boards/1/ we got the Boards/Django but now on directly clicking the Django we get the same url */ -->
+              <small class="text-muted d-block">{{board.description}}</small>
+            </td>
+            <td class="align-middle">{{ board.get_posts_count }}</td>
+            <td class="align-middle">{{ board.topics.count }}</td>
+            <td class="allign-middle text-nowrap">
+              {% with post=board.get_last_post %}
+                {% if post %}
+                  <small>
+                    <a href="{% url 'topic_posts' board.pk post.topic.pk %}">
+                      By {{ post.created_by.username }} , {{ post.created_at|naturaltime }}
+                    </a>
+                  </small>
+                {% else %}
+                  <small class="text-muted">
+                    <em>No posts yet.</em>
+                  </small>
+                {% endif %}
+              {% endwith %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+{% endblock %}
